@@ -9,7 +9,6 @@
         </button>
       </div>
       <div class="modal-body">
-      
         <form action="{{ url('pemasok') }}" class="form-horizontal" method="post">
         {{csrf_field()}}
         <div id="method"></div>
