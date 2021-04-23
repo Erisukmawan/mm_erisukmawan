@@ -19,6 +19,11 @@
             <i class="fa fa-plus"></i>
             </button>
             Tambah Pengajuan
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exportmodal">
+            <i class="fa fa-print"></i>
+            </button>
+            Export Data
             </h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -28,14 +33,6 @@
           </div>
           <div class="x_content">
           @include('templates/feedback')
-          <div class="row">
-                    <div class="col-md-12 col-sm-6 col-xs-12" style="text-align:right;margin-right:0;padding-right:0">
-                      <div class="col-md-12 col-sm-9 col-xs-12">
-                      <a href="penarikanbarang/export/"><button type="button"class="btn btn-success"><span class="fa fa-file"></span> Export XLS</button></a>
-                      <a href="penarikanbarang/pdf/"><button type="button"class="btn btn-success"><span class="fa fa-file"></span> Export PDF</button></a>
-                      </div>
-                    </div>
-                  </div>
             <table id="datatable" class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -44,7 +41,7 @@
                   <th>Nama Barang</th>
                   <th>Tanggal</th>
                   <th>Qty</th>
-                  <th>Status</th>
+                  <th>Ditarik ?</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -58,7 +55,7 @@
                   <td>{{ $data->qty }}</td>
                   <!-- <td><input id="toggle" type="checkbox" checked data-toggle="toggle" data-on="Sudah Ditarik" data-off="Belum Ditarik" data-onstyle="info" data-offstyle="danger" value="{{$data->status}}" {{ $data->status === 1 ? 'checked' : '' }}></td>  -->
                   <!-- <td><input id="switch-primary-{{$data->kode_barang}}" value="{{$data->kode_barang}}" type="checkbox" name="toggle" checked data-toggle="toggle" data-on="Sudah Ditarik" data-off="Belum Ditarik" data-onstyle="info" data-offstyle="danger" {{ $data->status === 1 ? 'checked' : '' }}> -->
-                  <td><input data-id="{{$data->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Sudah Ditarik" data-off="Belum Ditarik" {{ $data->status == 1 ? 'checked' : '' }}>
+                  <td><input data-id="{{$data->id}}" class="toggle-class" type="checkbox" data-onstyle="primary" data-offstyle="danger" data-toggle="toggle" data-on="Sudah Ditarik" data-off="Tidak Ditarik" {{ $data->status == 1 ? 'checked' : '' }}>
                   </td>
                   <td><a href="#edit" data-toggle="modal" data-target="#formModal" data-mode="edit" 
                   data-kode="{{ $data->kode_barang }}" data-nama="{{ $data->nama_barang }}"
@@ -74,6 +71,8 @@
       </div>
     </div>
   </div>
+  </div>
+  </div>
 <!-- /page content -->
 @include('penarikanbarang/modal')
 @endsection
@@ -82,7 +81,7 @@
 
 <script>
  $(function(){
-  $('.toggle-class').change(function() {
+  $('.toggle-class').change(function(event) {
         var status = $(this).prop('checked') == true ? 1 : 0; 
         var id = $(this).data('id'); 
          

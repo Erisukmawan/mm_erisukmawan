@@ -4,41 +4,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" role="dialog" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h5 class="modal-title" id="formModalLabel">Tambah Data Pemasok</h5>
+        <h5 class="modal-title" id="formModalLabel">Tambah Data Produk</h5>
       </div>
       <div class="modal-body">
-        <form action="{{ url('datapemasok') }}" class="form-horizontal" method="post">
+        <form action="{{ url('dataproduk') }}" class="form-horizontal" method="post">
         {{csrf_field()}}
         <div id="method"></div>
         <div class="form-group row">
-            <label for="inputKode" class="col-sm-3 col-form-label">Kode Pemasok</label>
+            <label for="inputNama" class="col-sm-3 col-form-label">Nama Produk</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputKode" name="kode_pemasok" value="{{$kode}}" readonly>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputNama" class="col-sm-3 col-form-label">Nama Pemasok</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputNama" name="nama_pemasok" required placeholder="Masukan Nama Pemasok ..">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputAlamat" class="col-sm-3 col-form-label">Alamat</label>
-            <div class="col-sm-9">
-              <textarea type="text" class="form-control" id="inputAlamat" name="alamat" required placeholder="Masukan Alamat ..">
-              </textarea>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputKota" class="col-sm-3 col-form-label">Kota</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputKota" name="kota" required placeholder="Masukan Kota ..">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputTelp" class="col-sm-3 col-form-label">Telephone</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputTelp" name="no_telp" required placeholder="Masukan Telephone Aktif Format 08xxxxxxxxxx">
+              <input type="text" class="form-control" id="inputNama" required name="nama_produk" placeholder="Masukan Nama Produk ..">
             </div>
         </div>
       </div>

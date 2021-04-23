@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Barang;
+use App\Produk;
 
-class BarangController extends Controller
+class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,8 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $data['result'] = \App\Barang::all();
-        $lastId = Barang::select('kode_barang')->orderBy('created_at','desc')->first();
-        $data['kode'] = ($lastId = null ? 'BRG000001' :sprintf('BRG%06d',substr($lastId->kode_barang,3)+1));
-        // dd($lastId);
-        return view('data_barang/index')->with($data);
+        $data['result'] = Produk::all();
+        return view('data_produk/index')->with($data);
     }
 
     /**
@@ -28,10 +25,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $input = $request->all();
-        $status = \App\Barang::create($input);
-
-        return redirect('/databarang');
+        //
     }
 
     /**
@@ -43,16 +37,16 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama_barang' => 'required|max:100',
+            'nama_produk' => 'required|max:100',
         ];
         $this->validate($request, $rules);
         $input = $request->all();
-        $status = \App\Barang::create($input);
+        $status = Produk::create($input);
 
         if($status)
-            return redirect('databarang')->with('success','DATA TAMBAH BERHASIL DITAMBAHKAN');
+            return redirect('dataproduk')->with('success','DATA PRODUK BERHASIL DITAMBAHKAN');
         else
-            return redirect('databarang')->with('error', 'DATA TAMBAH GAGAL DITAMBAHKAN');
+            return redirect('dataproduk')->with('error', 'DATA PRODUK GAGAL DITAMBAHKAN');
     }
 
     /**
@@ -87,22 +81,17 @@ class BarangController extends Controller
     public function update(Request $request)
     {
         $rules = [
-            'kode_barang' => 'required|max:100',
-            'produk_id' => 'required|max:11',
-            'nama_barang'=> 'required|max:100',
-            'satuan' => 'required|max:50',
-            'harga_jual' => 'required|max:100',
-            'stock' => 'required|max:11'
+            'nama_produk' => 'required|max:100',
         ];
         $this->validate($request, $rules);
         $input = $request->all();
-        $result = Barang::where('kode_barang',$request->kode_barang)->first();
+        $result = Produk::where('id',$request->id)->first();
         $status = $result->update($input);
 
         if($status)
-            return redirect('databarang')->with('success','DATA PRODUK BERHASIL DI UPDATE');
+            return redirect('dataproduk')->with('success','DATA PRODUK BERHASIL DI UPDATE');
         else
-            return redirect('databarang')->with('error', 'DATA PRODUK GAGAL DI UPDATE');
+            return redirect('dataproduk')->with('error', 'DATA PRODUK GAGAL DI UPDATE');
     }
 
     /**
@@ -111,14 +100,14 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $pemasok = Barang::where('kode_barang', $request->id)->first();
+        $pemasok = Produk::where('id', $request->id)->first();
         $status = $pemasok->delete();
 
         if($status)
-            return redirect('databarang')->with('success','DATA PRODUK BERHASIL DI HAPUS');
+            return redirect('dataproduk')->with('success','DATA PRODUK BERHASIL DI HAPUS');
         else
-            return redirect('databarang')->with('error', 'DATA PRODUK GAGAL DI HAPUS');
+            return redirect('dataproduk')->with('error', 'DATA PRODUK GAGAL DI HAPUS');
     }
 }

@@ -1,14 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
-use App\Pembelian;
-use App\Pemasok;
-Use App\Barang;
+use App\Pelanggan;
 
-class PembelianController extends Controller
+class PelanggansController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,14 +14,14 @@ class PembelianController extends Controller
      */
     public function index()
     {
-         $lastId = Pembelian::select('kode_masuk')->orderBy('created_at','desc')->first();
-        $data['kode'] = ($lastId = null ? 'P00000001' :sprintf('P%06d',substr($lastId->kode_masuk,3)+1));
-         $data['pemasok']= Pemasok::get();
-         $data['barang'] = Barang::get();
-        //  dd($lastId);
-        return view('transaksi_pembelian/index')->with($data);
+        $data['result'] = Pelanggan::all();
+        $lastId = Pelanggan::select('kode_pelanggan')->orderBy('created_at','desc')->first();
+        $data['kode'] = ($lastId = null ? 'PB000001' :sprintf('PB%06d',substr($lastId->kode_pelanggan,3)+1));
+        // dd($lastId);
+        return view('data_pelanggan/index')->with($data);
+        
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -32,7 +29,7 @@ class PembelianController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**

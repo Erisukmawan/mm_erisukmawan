@@ -85,7 +85,6 @@
     data += '<td><button type="button" class="btnRemoveBarang"><span class="fa fa-remove"></span></button></td>';
     data += '</tr>';
     if(tbody == 'Belum Ada Data') $('#tblTransaksi tbody tr').remove();
-    else;
 
     $('#tblTransaksi tbody').append(data);
     totalHarga += parseFloat(hargaBarang);
@@ -99,9 +98,9 @@
     let subTotalAwal = parseFloat($(a).closest('tr').find('.subTotal').text());
     let subTotal = qty * hargaBarang;
     totalHarga += subTotal - subTotalAwal;
-   
-    $('.totalharga').val(totalHarga);
     $(a).closest('tr').find('.subTotal').text(subTotal);
+    $('#totalharga').val(totalHarga);
+    
   }
   $(function(){
     $('#tblBarang2').DataTable();
@@ -119,8 +118,9 @@
     $('#tblTransaksi').on('click','.btnRemoveBarang',function(){
       let subTotalAwal = parseFloat($(this).closest('tr').find('.subTotal').text());
       totalHarga -= subTotalAwal;
-      $('.totalharga').val(totalHarga);
       $currentRow = $(this).closest('tr').remove();
+      $('#totalHarga').val(totalHarga);
+      
       
     });
 });

@@ -64,8 +64,10 @@
                     <li><a href="{{url('/')}}"><i class="fa fa-home"></i>Dashboard</a></li>
                   <li><a><i class="fa fa-edit"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                    <li><a href="{{url('/dataproduk')}}">Data Produk</a></li>
+                    <li><a href="{{url('/databarang')}}">Data Barang</a></li>
                       <li><a href="{{url('/datapemasok')}}">Data Pemasok</a></li>
-                      <li><a href="{{url('/databarang')}}">Data Barang</a></li>
+                      <li><a href="{{url('/datapelanggan')}}">Data Pelanggan</a></li>
                       <li><a href="{{url('/penarikanbarang')}}">Penarikan Barang</a></li>
                     </ul>
                   </li>

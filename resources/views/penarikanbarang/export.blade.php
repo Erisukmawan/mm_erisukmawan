@@ -1,6 +1,6 @@
 @section('content')
 <h1>Customer List</h1>
-<a href="{{ URL::to('/customers/pdf') }}">Export PDF</a>
+<a href="{{ URL::to('/pendarikanbarang/pdf') }}">Export PDF</a>
 <table>
   <thead>
     <tr>
@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach($result as $data)
+    @foreach($s as $data)
       <tr>
         <td>{{ $data->kode_barang }}</td>
         <td>{{ $data->nama_barang }}</td>

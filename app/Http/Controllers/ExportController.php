@@ -12,11 +12,12 @@ class ExportController extends Controller
   {
     $data['result'] = PenarikanBarang::all();
     return view('penarikanbarang.export')->with($data);
-    }
+  }
     public function export_pdf()
   {
-    $pdf = PDF::loadView('pdf.penarikanbarang', $data);
-    return $pdf->download('pendarikanbarang.pdf');;
+    $data['result'] = PenarikanBarang::all();
+    $pdf = PDF::loadView('penarikanbarang.export')->with($data);
+    return $pdf->download('penarikanbarang.pdf');;
   }
   
 }

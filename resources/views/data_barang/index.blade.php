@@ -12,7 +12,13 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Default Example</h2>
+            <h2>
+            <!-- button tambah  -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalbarang">
+            <i class="fa fa-plus"></i>
+            </button>
+            Tambah Data Barang
+            </h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
               <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -20,8 +26,7 @@
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-          <a class="btn btn-success" href="#add" data-toggle="modal" data-target="#modalbarang" data-mode="add">
-            <span class="fa fa-plus-circle"></span> Tambah</a>
+            @include('templates/feedback')
           <table id="dt-barang" class="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -43,12 +48,12 @@
                   <td>{{ $data->produk_id }}</td>
                   <td>{{ $data->nama_barang }}</td>
                   <td>{{ $data->satuan }}</td>
-                  <td>{{ $data->harga_jual }}</td>
+                  <td>@currency($data->harga_jual)</td>
                   <td>{{ $data->stock }}</td>
                   <td><a href="#edit" data-toggle="modal" data-target="#modalbarang" data-mode="edit" 
-                  data-kode="{{ $data->kode_pemasok }}" data-nama="{{ $data->nama_pemasok }}"
-                  data-alamat="{{ $data->alamat }}" data-kota="{{ $data->kota }}" data-tlp="{{ $data->no_telp }}"><span class="fa fa-edit" style="color:blue;"></span></a> | 
-                  <a href="#hapus" data-toggle="modal" data-target="#modalhapus" data-kode="{{ $data->kode_pemasok }}" data-nama="{{ $data->nama_pemasok }}" ><span class="fa fa-trash" style="color:red"></span></a>
+                  data-kode="{{ $data->kode_barang }}" data-nama="{{ $data->nama_barang }}"
+                  data-produk="{{ $data->produk_id }}" data-satuan="{{ $data->satuan }}" data-harga="{{ $data->harga_jual }}" data-stock="{{ $data->stock }}"><span class="fa fa-edit" style="color:blue;"></span></a> | 
+                  <a href="#hapus" data-toggle="modal" data-target="#modalhapus" data-kode="{{ $data->kode_barang }}" data-nama="{{ $data->nama_barang }}" ><span class="fa fa-trash" style="color:red"></span></a>
                   </td>
                 </tr>
                 @endforeach
@@ -67,30 +72,33 @@
 <script>
 $(function(){
   $('#dt-barang').DataTable();
-  $('#formModal').on('show.bs.modal', function(event) {
+  $('#modalbarang').on('show.bs.modal', function(event) {
      var button = $(event.relatedTarget);
      var kode = button.data('kode');
      var mode = button.data('mode');
+     var produk = button.data('produk');
      var nama = button.data('nama');
-     var tlp = button.data('tlp');
-     var alamat = button.data('alamat');
-     var kota = button.data('kota');
+     var satuan = button.data('satuan');
+     var harga = button.data('harga');
+     var stock = button.data('stock');
      var modal = $(this);
      if(mode == 'edit'){
-       modal.find('.modal-title').text('Edit Data Pemasok');
+       modal.find('.modal-title').text('Edit Data Barang');
        modal.find('.modal-body #inputKode').val(kode);
        modal.find('.modal-body #inputNama').val(nama);
-       modal.find('.modal-body #inputTelp').val(tlp);
-       modal.find('.modal-body #inputAlamat').val(alamat);
-       modal.find('.modal-body #inputKota').val(kota);
+       modal.find('.modal-body #inputProduk').val(produk);
+       modal.find('.modal-body #inputSatuan').val(satuan);
+       modal.find('.modal-body #inputHarga').val(harga);
+       modal.find('.modal-body #inputStock').val(stock);
        modal.find('.modal-body #method').html('{{ method_field('patch') }}');
      }else{
-       modal.find('.modal-title').text('Tambah Data Pemasok');
+       modal.find('.modal-title').text('Tambah Data Barang');
        modal.find('.modal-body #inputKode').val('{{$kode}}');
        modal.find('.modal-body #inputNama').val('');
-       modal.find('.modal-body #inputTelp').val('');
-       modal.find('.modal-body #inputAlamat').val('');
-       modal.find('.modal-body #inputKota').val('');
+       modal.find('.modal-body #inputProduk').val('');
+       modal.find('.modal-body #inputSatuan').val('');
+       modal.find('.modal-body #inputharga').val('');
+       modal.find('.modal-body #inputStock').val('');
        modal.find('.modal-body #method').html("");
      }
    });

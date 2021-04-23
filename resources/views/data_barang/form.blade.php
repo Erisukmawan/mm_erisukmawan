@@ -4,40 +4,46 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" role="dialog" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h5 class="modal-title" id="formModalLabel">Tambah Data Pemasok</h5>
+        <h5 class="modal-title" id="formModalLabel">Tambah Data Barang</h5>
       </div>
       <div class="modal-body">
         <form action="{{ url('databarang') }}" class="form-horizontal" method="post">
         {{csrf_field()}}
         <div id="method"></div>
         <div class="form-group row">
-            <label for="inputKode" class="col-sm-3 col-form-label">Kode Pemasok</label>
+            <label for="inputKode" class="col-sm-3 col-form-label">Kode Barang</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputKode" name="kode_pemasok" value="" readonly>
+              <input type="text" class="form-control" id="inputKode" name="kode_barang" required value="" readonly>
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputNama" class="col-sm-3 col-form-label">Nama Pemasok</label>
+            <label for="inputProduk" class="col-sm-3 col-form-label">Produk Id</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputNama" name="nama_pemasok" placeholder="Masukan Nama Pemasok ..">
+              <input type="text" class="form-control" id="inputProduk" name="produk_id" required placeholder="Masukan Produk Id..">
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputAlamat" class="col-sm-3 col-form-label">Alamat</label>
+            <label for="inputNama" class="col-sm-3 col-form-label">Nama Barang</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputAlamat" name="alamat" placeholder="Masukan Alamat ..">
+              <input type="text" class="form-control" id="inputNama" name="nama_barang" required placeholder="Masukan Nama Barang..">
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputKota" class="col-sm-3 col-form-label">Kota</label>
+            <label for="inputSatuan" class="col-sm-3 col-form-label">Satuan</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputKota" name="kota" placeholder="Masukan Kota ..">
+              <input type="text" class="form-control" id="inputSatuan" name="satuan" required placeholder="Masukan Satuan (Lusin/Pcs/Kg)..">
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputTelp" class="col-sm-3 col-form-label">Telephone</label>
+            <label for="inputHarga" class="col-sm-3 col-form-label">Harga</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputTelp" name="no_telp" placeholder="Masukan Telephone Aktif Format 08xxxxxxxxxx">
+              <input type="text" class="form-control" id="inputHarga" name="harga_jual" required placeholder="Masukan Harga Jual..">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputStock" class="col-sm-3 col-form-label">Stock</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="inputStock" name="stock" required placeholder="Masukan Jumlah Stock..">
             </div>
         </div>
       </div>
@@ -65,7 +71,7 @@
         <div class="modal-body">
         {{csrf_field()}}
         {{method_field('delete')}}
-        <input type="hidden" name="id_hapus" id=idhapus>
+        <input type="hidden" name="id" id=idhapus>
         Apakah Anda Yakin Ingin Menghapus <b id="datahapus"></b> ?
         </div>
         

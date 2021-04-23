@@ -3,18 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\PenarikanBarang;
-use App\Exports\PenarikanBarangExport;
-use Maatwebsite\Excel\Facades\Excel;
-use PDF;
-use App\Barang;
+use App\Pelanggan;
 
-class PenarikanBarangController extends Controller
+class PelangganController extends Controller
 {
-    public function export() 
-    {
-        return Excel::download(new PenarikanBarangExport, 'Penarikan.xlsx');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -22,18 +14,12 @@ class PenarikanBarangController extends Controller
      */
     public function index()
     {
-        $data['result'] = PenarikanBarang::all();
-        $data['barang'] = Barang::all();
-        $lastId = PenarikanBarang::select('kode_barang')->orderBy('created_at','desc')->first();
-        $data['kode'] = ($lastId = null ? 'PB00000001' :sprintf('PB%06d',substr($lastId->kode_barang,3)+1));
-        return view('penarikanbarang/index')->with($data);
+        $data['result'] = Pelanggan::all();
+        $lastId = \App\Pelanggan::select('kode_pelanggan')->orderBy('created_at','desc')->first();
+        $data['kode'] = ($lastId = null ? 'PB00000001' :sprintf('PB%06d',substr($lastId->kode_pelanggan,3)+1));
+        return view('data_pelanggan/index')->with($data);
     }
-    public function updateStatus(Request $request)
-    {
-    $post = PenarikanBarang::find($request->id);
-    $post->status = $request->status;
-    $post->update();
-    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -53,16 +39,20 @@ class PenarikanBarangController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama_barang' => 'required|max:100',
+            'kode_pelanggan' => 'required|max:100',
+            'nama' => 'required|max:100',
+            'alamat' => 'required|max:200',
+            'no_telp' => 'required|max:13',
+            'email' => 'required|max:100'
         ];
         $this->validate($request, $rules);
         $input = $request->all();
-        $status = \App\PenarikanBarang::create($input);
+        $status = Pelanggan::create($input);
 
         if($status)
-            return redirect('penarikanbarang')->with('success','DATA PENGAJUAN BERHASIL DITAMBAHKAN');
+            return redirect('datapelanggan')->with('success','DATA PELANGGAN BERHASIL DITAMBAHKAN');
         else
-            return redirect('penarikanbarang')->with('error', 'DATA PENGAJUAN GAGAL DITAMBAHKAN');
+            return redirect('datapelanggan')->with('error', 'DATA PELANGGAN GAGAL DITAMBAHKAN');
     }
 
     /**
@@ -97,17 +87,21 @@ class PenarikanBarangController extends Controller
     public function update(Request $request)
     {
         $rules = [
-            'nama_barang' => 'required|max:100',
+            'kode_pelanggan' => 'required|max:100',
+            'nama' => 'required|max:100',
+            'alamat' => 'required|max:200',
+            'no_telp' => 'required|max:13',
+            'email' => 'required|max:100'
         ];
         $this->validate($request, $rules);
         $input = $request->all();
-        $result = \App\PenarikanBarang::where('kode_barang',$request->kode_barang)->first();
+        $result = Pelanggan::where('kode_pelanggan',$request->kode_pelanggan)->first();
         $status = $result->update($input);
 
         if($status)
-            return redirect('penarikanbarang')->with('success','DATA PENGAJUAN BERHASIL DI UPDATE');
+            return redirect('datapelanggan')->with('success','DATA PELANGGAN BERHASIL DI UPDATE');
         else
-            return redirect('penarikanbarang')->with('error', 'DATA PENGAJUAN GAGAL DI UPDATE');
+            return redirect('datapelanggan')->with('error', 'DATA PELANGGAN GAGAL DI UPDATE');
     }
 
     /**
@@ -118,13 +112,12 @@ class PenarikanBarangController extends Controller
      */
     public function destroy(Request $request)
     {
-        $pemasok = \App\PenarikanBarang::where('kode_barang', $request->id_hapus)->first();
+        $pemasok = Pelanggan::where('kode_pelanggan', $request->id_hapus)->first();
         $status = $pemasok->delete();
 
         if($status)
-            return redirect('penarikanbarang')->with('success','PENGAJUAN BERHASIL DI HAPUS');
+            return redirect('datapelanggan')->with('success','DATA PELANGGAN BERHASIL DI HAPUS');
         else
-            return redirect('penarikanbarang')->with('error', 'DATA PENGAJUAN GAGAL DI HAPUS');
+            return redirect('datapelanggan')->with('error', 'DATA PELANGGAN GAGAL DI HAPUS');
     }
-    
 }
