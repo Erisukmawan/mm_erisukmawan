@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Barang;
 
 class BarangController extends Controller
 {
@@ -14,6 +15,9 @@ class BarangController extends Controller
     public function index()
     {
         $data['result'] = \App\Barang::all();
+        $lastId = Barang::select('kode_barang')->orderBy('created_at','desc')->first();
+        $data['kode'] = ($lastId = null ? 'BRG000001' :sprintf('BRG%06d',substr($lastId->kode_barang,3)+1));
+        // dd($lastId);
         return view('data_barang/index')->with($data);
     }
 

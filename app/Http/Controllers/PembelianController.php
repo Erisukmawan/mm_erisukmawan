@@ -17,8 +17,8 @@ class PembelianController extends Controller
      */
     public function index()
     {
-        $lastId = Pembelian::select('kode_masuk')->orderBy('created_at','desc')->first();
-         $data['kode']= ($lastId=null?'P00000001':sprintf('P%08d',substr($lastId->kode_masuk,1)+1));
+         $lastId = Pembelian::select('kode_masuk')->orderBy('created_at','desc')->first();
+        $data['kode'] = ($lastId = null ? 'P00000001' :sprintf('P%06d',substr($lastId->kode_masuk,3)+1));
          $data['pemasok']= Pemasok::get();
          $data['barang'] = Barang::get();
         //  dd($lastId);

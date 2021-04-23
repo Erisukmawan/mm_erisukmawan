@@ -45,8 +45,10 @@
                   <td>{{ $data->satuan }}</td>
                   <td>{{ $data->harga_jual }}</td>
                   <td>{{ $data->stock }}</td>
-                  <td><a href="#" data-toggle="modal" data-target="#modalbarang" class="btn btn-warning" data-mode="edit" data-id="{{ $data->id }}"><span class="fa fa-edit"></span></a>
-                  <a href="#" class="btn btn-danger"><span class="fa fa-trash"></span></a>
+                  <td><a href="#edit" data-toggle="modal" data-target="#modalbarang" data-mode="edit" 
+                  data-kode="{{ $data->kode_pemasok }}" data-nama="{{ $data->nama_pemasok }}"
+                  data-alamat="{{ $data->alamat }}" data-kota="{{ $data->kota }}" data-tlp="{{ $data->no_telp }}"><span class="fa fa-edit" style="color:blue;"></span></a> | 
+                  <a href="#hapus" data-toggle="modal" data-target="#modalhapus" data-kode="{{ $data->kode_pemasok }}" data-nama="{{ $data->nama_pemasok }}" ><span class="fa fa-trash" style="color:red"></span></a>
                   </td>
                 </tr>
                 @endforeach
@@ -65,21 +67,42 @@
 <script>
 $(function(){
   $('#dt-barang').DataTable();
-  $('#modalbarang').on('show.bs.modal', function(event){
-    var button = $(event.relatedTarget);
-      var id = button.data('id');
-      var mode = button.data('mode');
-      var id = button.data('id');
-      var modal = $(this);
-      if(mode == 'edit'){
-        modal.find('.modal-title').text('Edit Kategori');
-        modal.find('.modal-body #inputId').val(id);
-        modal.find('.modal-body #method').html('{{ method_field("patch") }}<input type="hidden" name="id_kategori" value="'+id+'">');
-      }else{
-        modal.find('.modal-title').text('Tambah Kategori');
-        modal.find('.modal-body #inputId').val('');
-        modal.find('.modal-body #method').html("");
-      }});
-})
+  $('#formModal').on('show.bs.modal', function(event) {
+     var button = $(event.relatedTarget);
+     var kode = button.data('kode');
+     var mode = button.data('mode');
+     var nama = button.data('nama');
+     var tlp = button.data('tlp');
+     var alamat = button.data('alamat');
+     var kota = button.data('kota');
+     var modal = $(this);
+     if(mode == 'edit'){
+       modal.find('.modal-title').text('Edit Data Pemasok');
+       modal.find('.modal-body #inputKode').val(kode);
+       modal.find('.modal-body #inputNama').val(nama);
+       modal.find('.modal-body #inputTelp').val(tlp);
+       modal.find('.modal-body #inputAlamat').val(alamat);
+       modal.find('.modal-body #inputKota').val(kota);
+       modal.find('.modal-body #method').html('{{ method_field('patch') }}');
+     }else{
+       modal.find('.modal-title').text('Tambah Data Pemasok');
+       modal.find('.modal-body #inputKode').val('{{$kode}}');
+       modal.find('.modal-body #inputNama').val('');
+       modal.find('.modal-body #inputTelp').val('');
+       modal.find('.modal-body #inputAlamat').val('');
+       modal.find('.modal-body #inputKota').val('');
+       modal.find('.modal-body #method').html("");
+     }
+   });
+
+   $('#modalhapus').on('show.bs.modal', function(event){
+     var button = $(event.relatedTarget);
+     var kode = button.data('kode');
+     var nama = button.data('nama');
+     var modal = $(this);
+     modal.find('.modal-body #idhapus').val(kode);
+     modal.find('.modal-body #datahapus').text(nama);
+   });
+});
 </script>
 @endpush

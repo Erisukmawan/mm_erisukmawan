@@ -13,6 +13,7 @@
     </div>
 
     <!-- jQuery -->
+    <script src="{{ asset('js') }}/canvasjs.min.js"></script>
     <script src="{{ asset('assets') }}/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('assets') }}/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -49,7 +50,7 @@
     <!-- bootstrap-daterangepicker -->
     <script src="{{ asset('assets') }}/vendors/moment/min/moment.min.js"></script>
     <script src="{{ asset('assets') }}/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+    <script src="{{ asset('assets') }}/build/js/bootstrap4-toggle.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('assets') }}/build/js/custom.min.js"></script>
 	<!-- Datatables -->

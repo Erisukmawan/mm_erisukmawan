@@ -20,7 +20,7 @@ class PemasokController extends Controller
         $data['kode'] = ($lastId = null ? 'SUP000001' :sprintf('SUP%06d',substr($lastId->kode_pemasok,3)+1));
         // dd($lastId);
         return view('data_pemasok/index')->with($data);
-        ;
+        
     }
 
     /**
@@ -41,7 +41,19 @@ class PemasokController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nama_pemasok' => 'required|max:100',
+            'alamat'       =>'required|min:5',
+            'no_telp'      => 'required|min:10',
+        ];
+        $this->validate($request, $rules);
+        $input = $request->all();
+        $status = \App\Pemasok::create($input);
+
+        if($status)
+            return redirect('datapemasok')->with('success','DATA PEMASOK BERHASIL DITAMBAHKAN');
+        else
+            return redirect('datapemasok')->with('error', 'DATA PEMASOK GAGAL DITAMBAHKAN');
     }
 
     /**
@@ -73,9 +85,22 @@ class PemasokController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $rules = [
+            'nama_pemasok' => 'required|max:100',
+            'alamat'       =>'required|min:5',
+            'no_telp'      => 'required|min:10',
+        ];
+        $this->validate($request, $rules);
+        $input = $request->all();
+        $result = \App\Pemasok::where('kode_pemasok',$request->kode_pemasok)->first();
+        $status = $result->update($input);
+
+        if($status)
+            return redirect('datapemasok')->with('success','DATA PEMASOK BERHASIL DI UPDATE');
+        else
+            return redirect('datapemasok')->with('error', 'DATA PEMASOK GAGAL DI UPDATE');
     }
 
     /**
@@ -84,8 +109,14 @@ class PemasokController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $pemasok = \App\Pemasok::where('kode_pemasok', $request->id_hapus)->first();
+        $status = $pemasok->delete();
+
+        if($status)
+            return redirect('datapemasok')->with('success','DATA PEMASOK BERHASIL DI HAPUS');
+        else
+            return redirect('datapemasok')->with('error', 'DATA PEMASOK GAGAL DI HAPUS');
     }
 }

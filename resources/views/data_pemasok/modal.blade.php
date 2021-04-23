@@ -3,19 +3,17 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" role="dialog" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h5 class="modal-title" id="formModalLabel">Tambah Data Pemasok</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
-        <form action="{{ url('pemasok') }}" class="form-horizontal" method="post">
+        <form action="{{ url('datapemasok') }}" class="form-horizontal" method="post">
         {{csrf_field()}}
         <div id="method"></div>
         <div class="form-group row">
             <label for="inputKode" class="col-sm-3 col-form-label">Kode Pemasok</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="inputKode" name="kode_pemasok" value="{{ $kode }}" readonly>
+              <input type="text" class="form-control" id="inputKode" name="kode_pemasok" value="{{$kode}}" readonly>
             </div>
         </div>
         <div class="form-group row">
@@ -42,12 +40,12 @@
               <input type="text" class="form-control" id="inputTelp" name="no_telp" placeholder="Masukan Telephone Aktif Format 08xxxxxxxxxx">
             </div>
         </div>
-        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -57,21 +55,26 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="formModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="formModalLabel">Konfirmasi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{url('pemasok')}}" method="post">
+        <form action="{{url('datapemasok')}}" method="post">
         <div class="modal-body">
+        {{csrf_field()}}
+        {{method_field('delete')}}
+        <input type="hidden" name="id_hapus" id=idhapus>
+        Apakah Anda Yakin Ingin Menghapus <b id="datahapus"></b> ?
         </div>
-        </form>
+        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Tidak</button>
+        <button type="submit" class="btn btn-success">Iya</button>
       </div>
+      </form>
     </div>
   </div>
 </div>

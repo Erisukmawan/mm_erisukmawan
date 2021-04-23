@@ -25,6 +25,7 @@
     <!-- bootstrap-daterangepicker -->
     <link href="{{ asset('assets') }}/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     
+    <link href="{{ asset('assets') }}/build/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="{{ asset('assets') }}/build/css/custom.min.css" rel="stylesheet">
     <!-- Datatables -->
@@ -65,6 +66,7 @@
                     <ul class="nav child_menu">
                       <li><a href="{{url('/datapemasok')}}">Data Pemasok</a></li>
                       <li><a href="{{url('/databarang')}}">Data Barang</a></li>
+                      <li><a href="{{url('/penarikanbarang')}}">Penarikan Barang</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-shopping-cart"></i> Transaksi <span class="fa fa-chevron-down"></span></a>
@@ -79,6 +81,7 @@
                       <li><a href="{{url('#')}}">Laporan Pembelian</a></li>
                     </ul>
                   </li>
+                  
                 </ul>
               </div>
 
