@@ -15,6 +15,18 @@ class PenarikanBarangController extends Controller
     {
         return Excel::download(new PenarikanBarangExport, 'Penarikan.xlsx');
     }
+    public function getNamaBarang(Request $request) 
+    {
+        if ($request->ajax()) {
+            $kode = $request->get('kode');
+            $barang = Barang::where('kode_barang', $kode)->get();
+
+            return response()->json([
+                'message' => 'success',
+                'barang' => $barang
+            ]);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,15 +36,18 @@ class PenarikanBarangController extends Controller
     {
         $data['result'] = PenarikanBarang::all();
         $data['barang'] = Barang::all();
-        $lastId = PenarikanBarang::select('kode_barang')->orderBy('created_at','desc')->first();
-        $data['kode'] = ($lastId = null ? 'PB00000001' :sprintf('PB%06d',substr($lastId->kode_barang,3)+1));
         return view('penarikanbarang/index')->with($data);
+        $pdf = PDF::loadView('mahasiswa', compact('mahasiswa'));
+        return $pdf->stream('mahasiswa.pdf');
     }
     public function updateStatus(Request $request)
     {
     $post = PenarikanBarang::find($request->id);
     $post->status = $request->status;
-    $post->update();
+    $post->save();
+
+    Session::flash('success', 'Data Berhasil Ditambahkan!');
+        return response()->json(['success'=>'status telah diganti']);
     }
     /**
      * Show the form for creating a new resource.
@@ -52,17 +67,18 @@ class PenarikanBarangController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'nama_barang' => 'required|max:100',
-        ];
-        $this->validate($request, $rules);
-        $input = $request->all();
-        $status = \App\PenarikanBarang::create($input);
-
-        if($status)
-            return redirect('penarikanbarang')->with('success','DATA PENGAJUAN BERHASIL DITAMBAHKAN');
-        else
-            return redirect('penarikanbarang')->with('error', 'DATA PENGAJUAN GAGAL DITAMBAHKAN');
+        $data = new PenarikanBarang;
+        $data->nama_barang = $request->nama_barang;
+        $data->kode_barang = $request->kode_barang;
+        $data->tanggal_expire = $request->tanggal_expire;
+        $data->qty = $request->qty;
+        $data->save();
+        if($request->qty) {
+            $barang = Barang::where('kode_barang',$request->kode_barang)->first();
+            $barang->stock -= $data->qty = $request->qty;
+            $barang->save();
+        }
+            return redirect('/penarikanbarang')->with('success','DATA PENGAJUAN BERHASIL DITAMBAHKAN');
     }
 
     /**
@@ -96,18 +112,34 @@ class PenarikanBarangController extends Controller
      */
     public function update(Request $request)
     {
-        $rules = [
-            'nama_barang' => 'required|max:100',
-        ];
-        $this->validate($request, $rules);
-        $input = $request->all();
-        $result = \App\PenarikanBarang::where('kode_barang',$request->kode_barang)->first();
-        $status = $result->update($input);
+        // $rules = [
+        //     'nama_barang' => 'required|max:100',
+        // ];
+        // $this->validate($request, $rules);
+        // $input = $request->all();
+        // $result = \App\PenarikanBarang::where('kode_barang',$request->kode_barang)->first();
+        // $status = $result->update($input);
+         $penarikan = PenarikanBarang::where('kode_barang', $request->kode_barang)->first();
+        $data = PenarikanBarang::where('kode_barang',$request->kode_barang)->first();
+        $data->kode_barang = $request->kode_barang;
+        $data->nama_barang = $request->nama_barang;
+        $data->tanggal_expire = $request->tanggal_expire;
+        $data->qty = $request->qty;
+        $data->save();
+        
+        $barang = Barang::where('kode_barang', $request->kode_barang)->first();
+        // Ambil value lama quantity
+        $oldQty = (int)$penarikan->qty;
+        // Ambil nilai stok saat ini di barang
+        $oldStock = (int)$barang->stock;
+        // Update stok
+        
+        $totalStock = $oldQty + $oldStock;
 
-        if($status)
+        $barang->update([
+            'stock' => $totalStock - $request->qty
+        ]);
             return redirect('penarikanbarang')->with('success','DATA PENGAJUAN BERHASIL DI UPDATE');
-        else
-            return redirect('penarikanbarang')->with('error', 'DATA PENGAJUAN GAGAL DI UPDATE');
     }
 
     /**

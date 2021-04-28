@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Produk;
 
 class ProdukController extends Controller
@@ -84,11 +85,12 @@ class ProdukController extends Controller
             'nama_produk' => 'required|max:100',
         ];
         $this->validate($request, $rules);
-        $input = $request->all();
-        $result = Produk::where('id',$request->id)->first();
-        $status = $result->update($input);
 
-        if($status)
+        $data = Produk::find($request->id);
+        $data->nama_produk = $request->nama_produk;
+        $data->save();
+
+        if($data)
             return redirect('dataproduk')->with('success','DATA PRODUK BERHASIL DI UPDATE');
         else
             return redirect('dataproduk')->with('error', 'DATA PRODUK GAGAL DI UPDATE');
@@ -100,9 +102,9 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $pemasok = Produk::where('id', $request->id)->first();
+        $pemasok = Produk::find($request->id_hapus);
         $status = $pemasok->delete();
 
         if($status)

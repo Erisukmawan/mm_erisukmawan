@@ -16,7 +16,7 @@ class PelangganController extends Controller
     {
         $data['result'] = Pelanggan::all();
         $lastId = \App\Pelanggan::select('kode_pelanggan')->orderBy('created_at','desc')->first();
-        $data['kode'] = ($lastId = null ? 'PB00000001' :sprintf('PB%06d',substr($lastId->kode_pelanggan,3)+1));
+        $data['kode'] = ($lastId == null ? 'PB00000001' :sprintf('PB%08d',substr($lastId->kode_pelanggan,3)+1));
         return view('data_pelanggan/index')->with($data);
     }
 

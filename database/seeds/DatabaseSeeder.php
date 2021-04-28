@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(PemasokSeeder::class);
         // $this->call(PenarikanSeeder::class);
-         $this->call(BarangSeeder::class);
+         //$this->call(BarangSeeder::class);
+         //$this->call(UserSeeder::class);
+        //  $this->call(PengajuanBarangSeeder::class);
         //  $this->call(ProdukSeeder::class);
         // $this->call(PembelianSeeder::class);
         //  $this->call(DetailPembelianSeeder::class);
@@ -22,5 +24,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(DetailPenjualanSeeder::class);
         // $this->call(UserSeeder::class);
         // $this->call(PelangganSeeder::class);
+        // factory(App\Penjualan::class,5)->create();
+        // factory(App\DetailPenjualan::class,10)->create();
+        factory(App\User::class,1)->create();
     }
 }

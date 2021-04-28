@@ -17,7 +17,7 @@ class PemasokController extends Controller
     {
         $data['result'] = Pemasok::all();
         $lastId = Pemasok::select('kode_pemasok')->orderBy('created_at','desc')->first();
-        $data['kode'] = ($lastId = null ? 'SUP000001' :sprintf('SUP%06d',substr($lastId->kode_pemasok,3)+1));
+        $data['kode'] = ($lastId == null ? 'SUP000001' :sprintf('SUP%06d',substr($lastId->kode_pemasok,3)+1));
         // dd($lastId);
         return view('data_pemasok/index')->with($data);
         
